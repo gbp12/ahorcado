@@ -11,7 +11,7 @@ body {
   display: flex;
   flex-direction: column;
   border: 1px solid #ccc;
-  background-color: red;
+  background-color: rgb(228, 228, 228);
   width: 400px;
   padding: 10px;
 }
@@ -37,4 +37,7 @@ label {
 }
 #winScreen {
   display: none;
+}
+#ahorcadoImg {
+  max-width: 100%;
 }

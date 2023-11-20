@@ -8,11 +8,20 @@ let intentosFallidos = [];
 
 function start(event) {
   event.preventDefault();
-  palabra = event.target.password.value.split("");
-  if (palabra.includes(" ") || palabra.length < 3) {
-    alert("La palabra no puede contener espacios ni ser menor a 3 caracteres");
+  console.log(event.target.password.value.toLowerCase());
+  const conjuntoDeCaracteres = new Set(event.target.password.value);
+  if (
+    event.target.password.value.includes(" ") ||
+    event.target.password.value.length < 3 ||
+    conjuntoDeCaracteres.size <= 1
+  ) {
+    alert(
+      "La palabra no puede contener, espacios, ser menor a 3 caracteres o solo tener un caracter"
+    );
   } else {
+    palabra = event.target.password.value.toLowerCase().split("");
     mostrarTablero();
+    intento(seleccionarPista(palabra));
     document.getElementById("wordChoose").style.display = "none";
     document.getElementById("tablero").style.display = "flex";
   }
@@ -26,10 +35,19 @@ function mostrarTablero() {
   });
 }
 
-function tryOut(event) {
+function adivinarLetra(event) {
   event.preventDefault();
-  const letra = document.getElementById("tryInput").value;
+
+  let letra = document.getElementById("tryInput").value;
+  letra = letra.toLowerCase();
+  console.log(letra);
+  console.log(letra.toLowerCase());
   intento(letra);
+}
+
+function seleccionarPista(array) {
+  const indiceAleatorio = Math.floor(Math.random() * array.length);
+  return array[indiceAleatorio];
 }
 
 function intento(letra) {
@@ -45,22 +63,38 @@ function intento(letra) {
     }
     console.log(letrasAcertadas.length, palabra.length);
     if (letrasAcertadas.length == palabra.length) {
-      winScreen();
+      document.getElementById("reset").style.display = "flex";
+      alert("ganaste krbon!");
     }
   } else {
     intentosFallidos.push(letra);
     document.getElementById("fails").innerHTML = intentosFallidos;
-    if (intentosFallidos.length >= 3) {
-      loseScreen();
+    document.getElementById(
+      "ahorcadoImg"
+    ).src = `./assets/ahorcado${intentosFallidos.length}.png`;
+    if (intentosFallidos.length >= 8) {
+      alert("Perdiste :(");
+      document.getElementById("reset").style.display = "flex";
     }
   }
 }
 
-function loseScreen() {
-  document.getElementById("tablero").style.display = "none";
-  document.getElementById("loseScreen").style.display = "flex";
-}
 function winScreen() {
   document.getElementById("tablero").style.display = "none";
   document.getElementById("winScreen").style.display = "flex";
+}
+function reset() {
+  document.getElementById("tablero").style.display = "none";
+  document.getElementById("loseScreen").style.display = "none";
+  document.getElementById("winScreen").style.display = "none";
+  document.getElementById("wordChoose").style.display = "flex";
+  document.getElementById("reset").style.display = "none";
+  document.getElementById("ahorcadoImg").src = ``;
+  document.getElementById("password").value = "";
+  document.getElementById("tryInput").value = "";
+  document.getElementById("fails").innerHTML = "";
+  document.getElementById("word").innerHTML = "";
+  palabra = [];
+  letrasAcertadas = [];
+  intentosFallidos = [];
 }

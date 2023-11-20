@@ -8,10 +8,10 @@
     <script src="./index.js"></script>
   </head>
   <body>
-    <header><h1>Δήμιος</h1></header>
+    <header><h1>κρεμάλα</h1></header>
     <form id="wordChoose" onsubmit="start(event);">
       <h2>Jugador 1 escoge la palabra:</h2>
-      <input type="password" id="password" />
+      <input type="text" id="password" />
       <button type="submit">Enviar</button>
     </form>
 
@@ -19,10 +19,20 @@
       <h2>Jugador 2 Intenta adivinar la palabra!</h2>
       <div id="word"></div>
       <div id="fails"></div>
-      <form id="characterTry" onsubmit="tryOut(event);">
+      <form id="characterTry" onsubmit="adivinarLetra(event);">
         <input id="tryInput" type="text" maxlength="1" />
         <button type="submit">Enviar</button>
       </form>
+      <div id="ahorcadoContainer">
+        <img id="ahorcadoImg" />
+      </div>
+      <button
+        style="display: none; cursor: pointer"
+        id="reset"
+        onclick="reset()"
+      >
+        Reset
+      </button>
     </div>
     <div id="loseScreen">
       <h2>Perdiste :(</h2>
